@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>何文財 - Dragon Ball Legends</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Orbitron:wght@700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+
+<style>
+    /* --- CÀI ĐẶT CƠ BẢN --- */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+        font-family: 'Noto Sans TC', 'Orbitron', sans-serif;
+        width: 100vw; height: 100vh;
+        overflow: hidden; /* Cấm cuộn */
+        background-color: #111;
+        display: flex; justify-content: center; align-items: center;
+    }
+
+    /* NỀN & VIỀN */
+    .dynamic-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: url('images/goku.jpg') no-repeat center center/cover; z-index: -2; animation: bgBreath 30s infinite ease-in-out; }
+    @keyframes bgBreath { 0% { transform: scale(1); } 50% { transform: scale(1.15); } 100% { transform: scale(1); } }
+    .mystic-border { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 999; box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.6); border: 2px solid rgba(0, 234, 255, 0.3); }
+
+    /* --- KHUNG BAO TOÀN BỘ --- */
+    .app-container {
+        display: flex; flex-direction: column; align-items: center; justify-content: center;
+        width: 100%; max-width: 500px; height: 100%; max-height: 95vh; position: relative;
+    }
+
+    /* --- PROFILE CARD --- */
+    .profile-card {
+        width: 90%; background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(20px);
+        border-radius: 25px; padding: 2.5vh 20px; text-align: center; color: #fff;
+        position: relative; 
+        z-index: 5; 
+        box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+        border: 1px solid rgba(255,255,255,0.1); animation: borderPulse 4s infinite ease-in-out;
+        padding-bottom: 5vh; 
+        margin-bottom: 0; 
+    }
+    @keyframes borderPulse {
+        0% { border-color: rgba(255,255,255,0.1); box-shadow: 0 0 20px rgba(0, 180, 255, 0.1); }
+        50% { border-color: rgba(0, 234, 255, 0.6); box-shadow: 0 0 40px rgba(0, 180, 255, 0.3); }
+        100% { border-color: rgba(255,255,255,0.1); box-shadow: 0 0 20px rgba(0, 180, 255, 0.1); }
+    }
+
+    /* CÁC THÀNH PHẦN TRONG CARD */
+    .avatar-container { position: relative; width: 15vh; height: 15vh; max-width: 130px; max-height: 130px; margin: 0 auto 1.5vh auto; }
+    .avatar-border { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 50%; border: 3px solid #00eaff; box-shadow: 0 0 20px #00eaff; z-index: 2; animation: avatarBreath 4s infinite ease-in-out; }
+    .avatar { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; position: relative; z-index: 3; border: 3px solid #fff; }
+
+    .name { font-family: 'Noto Sans TC', sans-serif; font-size: clamp(22px, 3.5vh, 32px); font-weight: 700; margin-bottom: 0.5vh; text-shadow: 0 0 10px rgba(0, 234, 255, 0.8); }
+    .title { color: #00eaff; font-size: 11px; letter-spacing: 1.5px; margin-bottom: 2vh; text-transform: uppercase; font-weight: 600; }
+    
+    .stats-grid { display: flex; justify-content: space-between; background: rgba(255,255,255,0.07); padding: 1.5vh; border-radius: 15px; margin-bottom: 2vh; border: 1px solid rgba(255,255,255,0.1); }
+    .stat-item { text-align: center; width: 25%; }
+    .stat-label { font-size: 10px; color: #aaa; font-weight: 600; display: block; margin-bottom: 3px; }
+    .stat-value { font-family: 'Orbitron', sans-serif; font-size: clamp(12px, 2vh, 16px); font-weight: 700; color: #fff; }
+    .age-val { color: #ff9900; }
+
+    .contact-info { margin-bottom: 2vh; text-align: left; padding: 0 5px; }
+    .contact-row { display: flex; align-items: center; background: rgba(0, 10, 20, 0.6); margin-bottom: 1vh; padding: 1.2vh 15px; border-radius: 10px; border: 1px solid rgba(0, 234, 255, 0.1); }
+    .contact-row i { font-size: 14px; color: #00eaff; width: 25px; text-align: center; }
+    .contact-text { font-family: 'Orbitron', sans-serif; font-size: 13px; font-weight: 600; }
+
+    .btn-group { margin-top: 5px; }
+    .btn-activate, .btn-bio { display: block; width: 100%; padding: 1.5vh; text-decoration: none; font-weight: 700; font-size: 15px; border-radius: 50px; cursor: pointer; transition: 0.3s; font-family: 'Noto Sans TC', sans-serif; text-align: center; margin-bottom: 1vh; }
+    .btn-activate { background: linear-gradient(90deg, #3a4b8a, #5f72bd); color: #fff; border: none; box-shadow: 0 0 15px rgba(95, 114, 189, 0.6); }
+    .btn-bio { background: transparent; color: #00eaff; border: 2px solid rgba(0, 234, 255, 0.6); margin-bottom: 0; }
+
+    /* --- NGỌC RỒNG LẤP LÁNH & MỜ ẢO --- */
+    .dragon-balls-container { 
+        position: relative; display: grid; grid-template-columns: repeat(12, 1fr); 
+        gap: 5px; width: 100%; height: auto; 
+        margin-top: -50px; 
+        z-index: 20; 
+        pointer-events: none; 
+    }
+    
+    .dragon-ball { 
+        width: 14vw; height: 14vw; max-width: 70px; max-height: 70px;
+        border-radius: 50%; background: radial-gradient(circle at 40% 40%, #fff5cc 0%, #ffac00 45%, #d95700 100%); 
+        /* Bóng đổ cơ bản */
+        box-shadow: inset 3px 3px 10px rgba(255,255,255,0.7), 0 5px 10px rgba(0,0,0,0.5); 
+        position: relative; cursor: pointer; 
+        pointer-events: auto;
+        /* Animation thở và phát sáng mạnh mẽ hơn, nhanh hơn (2s) */
+        animation: ballSuperGlow 2s infinite ease-in-out alternate;
+    }
+
+    /* Hiệu ứng thở và phát sáng hào quang (MỚI) */
+    @keyframes ballSuperGlow {
+        0% {
+            transform: scale(1);
+            filter: brightness(1);
+            box-shadow: inset 3px 3px 10px rgba(255,255,255,0.7), 0 5px 10px rgba(0,0,0,0.5);
+        }
+        100% {
+            transform: scale(1.05); /* Phồng lên */
+            filter: brightness(1.3) saturate(1.2); /* Sáng rực và đậm màu hơn */
+            /* Hào quang vàng cam tỏa ra mạnh mẽ xung quanh */
+            box-shadow: inset 5px 5px 20px rgba(255,255,255,1), 0 0 20px rgba(255, 165, 0, 0.8), 0 0 35px rgba(255, 69, 0, 0.5);
+        }
+    }
+
+    /* Hover vào thì còn sáng hơn nữa */
+    .dragon-ball:hover { 
+        transform: scale(1.15) translateY(-5px) !important; 
+        filter: brightness(1.5) saturate(1.3) !important;
+        box-shadow: inset 5px 5px 25px rgba(255,255,255,1), 0 0 30px rgba(255, 215, 0, 1), 0 0 50px rgba(255, 69, 0, 0.8) !important;
+        z-index: 30;
+    }
+    
+    /* Lớp bóng kính (Shimmer) di chuyển nhanh hơn, mờ ảo hơn (MỚI) */
+    .dragon-ball::after { 
+        content: ''; position: absolute; top: 5%; left: 5%; width: 50%; height: 30%; 
+        border-radius: 50%; background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(255,255,255,0.2), transparent); 
+        filter: blur(3px); transform: rotate(-45deg);
+        /* Animation phản quang chạy qua lại */
+        animation: shimmerMove 1.5s infinite ease-in-out alternate;
+    }
+    @keyframes shimmerMove {
+        0% { opacity: 0.4; transform: rotate(-45deg) translateX(-10%); }
+        100% { opacity: 1; transform: rotate(-45deg) translateX(10%); filter: blur(2px) brightness(1.5); }
+    }
+
+    /* Tạo độ trễ (delay) khác nhau cho nhịp thở */
+    #db-1 { animation-delay: 0s; } #db-1::after { animation-delay: 0.1s; }
+    #db-2 { animation-delay: -0.5s; } #db-2::after { animation-delay: -0.4s; }
+    #db-3 { animation-delay: -1s; } #db-3::after { animation-delay: -0.9s; }
+    #db-4 { animation-delay: -1.5s; } #db-4::after { animation-delay: -1.4s; }
+    #db-5 { animation-delay: -2s; } #db-5::after { animation-delay: -1.9s; }
+    #db-6 { animation-delay: -2.5s; } #db-6::after { animation-delay: -2.4s; }
+    #db-7 { animation-delay: -3s; } #db-7::after { animation-delay: -2.9s; }
+
+
+    /* VỊ TRÍ ZIG ZAG */
+    #db-5 { grid-column: 3 / 5; grid-row: 1; } 
+    #db-1 { grid-column: 6 / 8; grid-row: 1; transform: translateY(-25%); z-index: 25; } 
+    #db-2 { grid-column: 9 / 11; grid-row: 1; } 
+    #db-6 { grid-column: 1 / 3; grid-row: 2; transform: translateY(15%); } 
+    #db-3 { grid-column: 4 / 6; grid-row: 2; } 
+    #db-4 { grid-column: 8 / 10; grid-row: 2; } 
+    #db-7 { grid-column: 11 / 13; grid-row: 2; transform: translateY(15%); }
+
+    /* --- NGÔI SAO LẤP LÁNH (TWINKLING STARS - MỚI) --- */
+    .star { 
+        position: absolute; color: #d11a00; font-size: 14px; 
+        filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.5)); /* Thêm bóng sáng cho sao */
+        transform: translate(-50%, -50%); pointer-events: none;
+        /* Animation lấp lánh cho sao */
+        animation: starTwinkle 1.2s infinite ease-in-out alternate;
+    }
+    
+    /* Hiệu ứng sao chớp nháy */
+    @keyframes starTwinkle {
+        0% { opacity: 0.7; transform: translate(-50%, -50%) scale(0.9); }
+        100% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); filter: drop-shadow(0 0 5px rgba(255, 200, 0, 0.8)); brightness(1.5); }
+    }
+
+    /* Delay ngẫu nhiên cho các sao để không nháy cùng lúc */
+    #db-1 .star { font-size: 26px; animation-delay: 0.2s; }
+    #db-2 .s1 { animation-delay: 0.5s; } #db-2 .s2 { animation-delay: 0.1s; }
+    #db-3 .s1 { animation-delay: 0.8s; } #db-3 .s2 { animation-delay: 0.3s; } #db-3 .s3 { animation-delay: 0.6s; }
+    #db-5 .s1 { animation-delay: 0.4s; } #db-5 .s3 { animation-delay: 0.9s; }
+
+    /* Responsive sao */
+    @media screen and (max-width: 400px) { .star { font-size: 10px; } #db-1 .star { font-size: 18px; } #db-7 .s1 { font-size: 12px; }}
+
+    /* Vị trí sao (Giữ nguyên) */
+    #db-1 .star { left: 50%; top: 50%; }
+    #db-2 .s1 { left: 35%; top: 50%; } #db-2 .s2 { left: 65%; top: 50%; }
+    #db-3 .s1 { left: 50%; top: 32%; } #db-3 .s2 { left: 33%; top: 65%; } #db-3 .s3 { left: 67%; top: 65%; }
+    #db-4 .s1 { left: 35%; top: 35%; } #db-4 .s2 { left: 65%; top: 35%; } #db-4 .s3 { left: 35%; top: 65%; } #db-4 .s4 { left: 65%; top: 65%; }
+    #db-5 .s1 { left: 50%; top: 28%; } #db-5 .s2 { left: 28%; top: 45%; } #db-5 .s3 { left: 72%; top: 45%; } #db-5 .s4 { left: 35%; top: 70%; } #db-5 .s5 { left: 65%; top: 70%; }
+    #db-6 .s1 { left: 30%; top: 30%; } #db-6 .s2 { left: 50%; top: 30%; } #db-6 .s3 { left: 70%; top: 30%; } #db-6 .s4 { left: 30%; top: 70%; } #db-6 .s5 { left: 50%; top: 70%; } #db-6 .s6 { left: 70%; top: 70%; }
+    #db-7 .s1 { left: 50%; top: 50%; font-size: 16px; } 
+    #db-7 .s2 { left: 50%; top: 22%; } #db-7 .s3 { left: 25%; top: 35%; } #db-7 .s4 { left: 75%; top: 35%; } #db-7 .s5 { left: 25%; top: 65%; } #db-7 .s6 { left: 75%; top: 65%; } #db-7 .s7 { left: 50%; top: 78%; }
+
+    /* --- POPUP --- */
+    .qr-modal { display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.95); justify-content: center; align-items: center; padding: 20px; }
+    .qr-content { position: relative; background: #fff; padding: 2px; border-radius: 12px; box-shadow: 0 0 30px #00eaff; max-width: 100%; }
+    .qr-img { width: auto; max-width: 80vw; max-height: 60vh; border-radius: 10px; display: block; }
+    
+    .info-modal-content {
+        background: linear-gradient(135deg, #0f172a, #1e293b); padding: 25px; width: 90%; max-width: 500px;
+        border: 2px solid #00eaff; border-radius: 20px; color: #fff; position: relative;
+    }
+    .info-header { font-size: 20px; color: #ff9900; margin-bottom: 15px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; font-weight: bold; }
+    .info-body { font-size: 14px; line-height: 1.5; color: #e0e0e0; }
+    .info-highlight { color: #00eaff; font-weight: bold; }
+    .close-btn { position: absolute; top: -15px; right: -15px; background: #ff3333; color: white; width: 35px; height: 35px; border-radius: 50%; text-align: center; line-height: 35px; font-weight: bold; font-size: 20px; cursor: pointer; border: 2px solid #fff; }
+    .scan-text { position: absolute; bottom: -30px; left: 50%; transform: translateX(-50%); font-weight: bold; color: #fff; width: 200px; text-align: center; pointer-events: none;}
+
+    /* MÀN HÌNH NGẮN */
+    @media screen and (max-height: 700px) {
+        .app-container { max-width: 400px; width: 85%; }
+        .dragon-balls-container { margin-top: -40px; }
+        .name { font-size: 22px; } .contact-row { padding: 5px 10px; } .btn-activate, .btn-bio { padding: 8px; font-size: 13px; }
+    }
+</style>
+</head>
+<body>
+
+    <div class="dynamic-bg"></div>
+    <div class="mystic-border"></div>
+
+    <div class="app-container">
+        <div class="profile-card">
+            <div class="avatar-container">
+                <div class="avatar-border"></div>
+                <img src="images/ha_van_tai.jpeg" class="avatar" alt="Avatar">
+            </div>
+            
+            <div class="name">何文財</div>
+            <div class="title">Saiyan Warrior • Ultra Instinct</div>
+            
+            <div class="stats-grid">
+                <div class="stat-item"><span class="stat-label">年齡</span><span class="stat-value age-val">23</span></div>
+                <div class="stat-item"><span class="stat-label">戰鬥力</span><span class="stat-value">9999</span></div>
+                <div class="stat-item"><span class="stat-label">國籍</span><span class="stat-value">越南</span></div>
+                <div class="stat-item"><span class="stat-label">狀態</span><span class="stat-value">單身</span></div>
+            </div>
+            
+            <div class="contact-info">
+                <div class="contact-row"><i class="fas fa-phone-alt"></i><span class="contact-text">0970.622.189</span></div>
+                <div class="contact-row"><i class="fas fa-envelope"></i><span class="contact-text">taipluss@gmail.com</span></div>
+            </div>
+            
+            <div class="btn-group">
+                <button class="btn-activate" onclick="openQR()">立即加好友</button>
+                <button class="btn-bio" onclick="openBio()">關於我</button>
+            </div>
+        </div>
+
+        <div class="dragon-balls-container">
+            <div class="dragon-ball" id="db-5" onclick="showBall(5, '五星珠')"><span class="star s1">★</span><span class="star s2">★</span><span class="star s3">★</span><span class="star s4">★</span><span class="star s5">★</span></div>
+            <div class="dragon-ball" id="db-1" onclick="showBall(1, '一星珠')"><span class="star">★</span></div>
+            <div class="dragon-ball" id="db-2" onclick="showBall(2, '二星珠')"><span class="star s1">★</span><span class="star s2">★</span></div>
+            <div class="dragon-ball" id="db-6" onclick="showBall(6, '六星珠')"><span class="star s1">★</span><span class="star s2">★</span><span class="star s3">★</span><span class="star s4">★</span><span class="star s5">★</span><span class="star s6">★</span></div>
+            <div class="dragon-ball" id="db-3" onclick="showBall(3, '三星珠')"><span class="star s1">★</span><span class="star s2">★</span><span class="star s3">★</span></div>
+            <div class="dragon-ball" id="db-4" onclick="showBall(4, '四星珠')"><span class="star s1">★</span><span class="star s2">★</span><span class="star s3">★</span><span class="star s4">★</span></div>
+            <div class="dragon-ball" id="db-7" onclick="showBall(7, '七星珠')"><span class="star s1">★</span><span class="star s2">★</span><span class="star s3">★</span><span class="star s4">★</span><span class="star s5">★</span><span class="star s6">★</span><span class="star s7">★</span></div>
+        </div>
+    </div>
+
+    <div id="qrPopup" class="qr-modal" onclick="closePopups()">
+        <div class="qr-content" onclick="event.stopPropagation()">
+            <div class="close-btn" onclick="closePopups()">×</div>
+            <img src="images/qr_code.jpeg" id="popup-image" class="qr-img" alt="Popup Image">
+            <div class="scan-text" id="popup-text">掃描加好友</div>
+        </div>
+    </div>
+
+    <div id="bioPopup" class="qr-modal" onclick="closePopups()">
+        <div class="info-modal-content" onclick="event.stopPropagation()">
+            <div class="close-btn" onclick="closePopups()">×</div>
+            <div class="info-header">戰士檔案</div>
+            <div class="info-body">
+                <p>大家好！我是<span style="color:#00eaff;font-weight:bold;">何文財</span>。</p>
+                <p>目前我在<b>台灣</b>生活、學習和工作。我是一個充滿熱情的男孩，內心燃燒著火焰，總是渴望<b>探索世界</b>，尋找新鮮的體驗。</p>
+                <p>雖然異鄉的生活有些忙碌，但我總是願意把時間留給珍貴的朋友。如果你也在尋找一位真誠的夥伴來分享有趣的故事，那麼……我們終於找到彼此了！</p>
+                <p style="text-align: right; font-style: italic; color: #ff9900; margin-top:10px;">"Let's explore the world together!"</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openQR() {
+            document.getElementById("popup-image").src = "images/qr_code.jpeg";
+            document.getElementById("popup-text").innerText = "掃描加好友";
+            document.getElementById("qrPopup").style.display = "flex";
+            document.getElementById("bioPopup").style.display = "none";
+        }
+        function showBall(num, name) {
+            document.getElementById("popup-image").src = "images/b" + num + ".jpeg";
+            document.getElementById("popup-text").innerText = name;
+            document.getElementById("qrPopup").style.display = "flex";
+            document.getElementById("bioPopup").style.display = "none";
+        }
+        function openBio() {
+            document.getElementById("bioPopup").style.display = "flex";
+            document.getElementById("qrPopup").style.display = "none";
+        }
+        function closePopups() { 
+            document.getElementById("qrPopup").style.display = "none";
+            document.getElementById("bioPopup").style.display = "none";
+        }
+    </script>
+
+</body>
+</html>
