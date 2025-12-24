@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>何文財 - Profile</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Orbitron:wght@700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+
+<style>
+    /* --- CẤU HÌNH CỐT LÕI --- */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+        font-family: 'Noto Sans TC', 'Orbitron', sans-serif;
+        width: 100vw; height: 100vh; overflow: hidden; 
+        background-color: #000;
+        transition: background-color 0.5s ease;
+    }
+
+    /* =========================================================== */
+    /* === PHẦN 1: GIAO DIỆN DRAGON BALL === */
+    /* =========================================================== */
+    
+    #mode-dragonball {
+        width: 100%; height: 100%;
+        display: flex; justify-content: center; align-items: center;
+        position: relative;
+    }
+
+    /* Intro Layer */
+    #intro-layer {
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        z-index: 9999; display: block; overflow: hidden;
+        background-color: #000;
+    }
+    #intro-bg-image {
+        position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+        background: url('images/goku2.jpg') no-repeat center center/cover;
+        animation: introBreathing 5s infinite ease-in-out;
+    }
+    @keyframes introBreathing {
+        0% { transform: scale(1); filter: brightness(0.6); }
+        50% { transform: scale(1.15); filter: brightness(1.1); }
+        100% { transform: scale(1); filter: brightness(0.6); }
+    }
+    
+    .energy-sphere {
+        position: absolute; top: 48%; left: 36.5%; transform: translate(-50%, -50%);
+        width: 130px; height: 130px; border-radius: 50%;
+        background: radial-gradient(circle, rgba(224,247,250,0.5), rgba(0,234,255,0.3), rgba(0,66,170,0.1));
+        box-shadow: 0 0 50px #00eaff, inset 0 0 30px rgba(255,255,255,0.8);
+        cursor: pointer; animation: spherePulse 1.5s infinite; z-index: 10000;
+        display: flex; justify-content: center; align-items: center;
+        -webkit-tap-highlight-color: transparent;
+    }
+    .energy-sphere::after { 
+        content: 'KAME'; color: #fff; font-weight: 900; font-size: 20px; 
+        font-family: 'Orbitron'; text-shadow: 0 0 15px #00eaff, 0 0 30px #fff; letter-spacing: 3px;
+    }
+    @keyframes spherePulse { 
+        0% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 30px #00eaff; opacity: 0.8; } 
+        50% { transform: translate(-50%, -50%) scale(1.15); box-shadow: 0 0 80px #00eaff, 0 0 120px #fff; opacity: 1; } 
+        100% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 30px #00eaff; opacity: 0.8; } 
+    }
+
+    .shaking { animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both infinite; }
+    @keyframes shake { 
+        10%, 90% { transform: translate3d(-2px, 0, 0); } 
+        20%, 80% { transform: translate3d(4px, 0, 0); } 
+        30%, 50%, 70% { transform: translate3d(-6px, 0, 0); } 
+        40%, 60% { transform: translate3d(6px, 0, 0); } 
+    }
+
+    .flash-bang { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #fff; z-index: 9998; pointer-events: none; opacity: 0; transition: opacity 0.2s; }
+
+    /* Main UI Dragon Ball */
+    .dynamic-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: url('images/goku.jpg') no-repeat center center/cover; z-index: -2; animation: bgBreath 30s infinite ease-in-out; opacity: 0; transition: opacity 2s; }
+    @keyframes bgBreath { 0% { transform: scale(1); } 50% { transform: scale(1.15); } 100% { transform: scale(1); } }
+    
+    .mystic-border { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 999; box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.6); border: 2px solid rgba(0, 234, 255, 0.3); }
+
+    .app-container {
+        display: flex; flex-direction: column; align-items: center; justify-content: center;
+        width: 100%; max-width: 500px; height: 100%; max-height: 95vh; position: relative;
+        opacity: 0; transform: scale(0.9); transition: all 1s ease-out;
+    }
+
+    .profile-card {
+        width: 90%; background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(20px);
+        border-radius: 25px; padding: 2.5vh 20px; text-align: center; color: #fff;
+        position: relative; z-index: 5; 
+        box-shadow: 0 10px 40px rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.1); 
+        animation: borderPulse 4s infinite ease-in-out; padding-bottom: 5vh; margin-bottom: 0; 
+    }
+    @keyframes borderPulse {
+        0%, 100% { border-color: rgba(255,255,255,0.1); box-shadow: 0 0 20px rgba(0, 180, 255, 0.1); }
+        50% { border-color: rgba(0, 234, 255, 0.6); box-shadow: 0 0 40px rgba(0, 180, 255, 0.3); }
+    }
+
+    .avatar-container { position: relative; width: 15vh; height: 15vh; max-width: 130px; max-height: 130px; margin: 0 auto 1.5vh auto; }
+    .avatar-border { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 50%; border: 3px solid #00eaff; box-shadow: 0 0 20px #00eaff; z-index: 2; animation: avatarBreath 4s infinite ease-in-out; }
+    .avatar { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; position: relative; z-index: 3; border: 3px solid #fff; }
+
+    .name { font-family: 'Noto Sans TC', sans-serif; font-size: clamp(22px, 3.5vh, 32px); font-weight: 700; margin-bottom: 0.5vh; text-shadow: 0 0 10px rgba(0, 234, 255, 0.8); }
+    .title { color: #00eaff; font-size: 11px; letter-spacing: 1.5px; margin-bottom: 2vh; text-transform: uppercase; font-weight: 600; }
+    
+    .stats-grid { display: flex; justify-content: space-between; background: rgba(255,255,255,0.07); padding: 1.5vh; border-radius: 15px; margin-bottom: 2vh; border: 1px solid rgba(255,255,255,0.1); }
+    .stat-item { text-align: center; width: 25%; }
+    .stat-label { font-size: 10px; color: #aaa; font-weight: 600; display: block; margin-bottom: 3px; }
+    .stat-value { font-family: 'Orbitron', sans-serif; font-size: clamp(12px, 2vh, 16px); font-weight: 700; color: #fff; }
+    .age-val { color: #ff9900; }
+
+    .contact-info { margin-bottom: 2vh; text-align: left; padding: 0 5px; }
+    .contact-row { display: flex; align-items: center; background: rgba(0, 10, 20, 0.6); margin-bottom: 1vh; padding: 1.2vh 15px; border-radius: 10px; border: 1px solid rgba(0, 234, 255, 0.1); }
+    .contact-row i { font-size: 14px; color: #00eaff; width: 25px; text-align: center; }
+    .contact-text { font-family: 'Orbitron', sans-serif; font-size: 13px; font-weight: 600; }
+
+    .social-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; position: relative; }
+    .social-btn { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px; border-radius: 50px; text-decoration: none; font-family: 'Orbitron', sans-serif; font-size: 12px; font-weight: bold; transition: 0.3s; color: #fff; border: 1px solid rgba(255,255,255,0.1); cursor: pointer; }
+    .social-btn:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
+    .btn-fb { background: #1877F2; border-color: #1877F2; }
+    .btn-line { background: #06C755; border-color: #06C755; }
+    .btn-tiktok { background: #000; border-color: #25F4EE; box-shadow: inset 0 0 5px #FE2C55; }
+    .btn-call { background: linear-gradient(90deg, #ff7e00, #ff2f00); border: none; }
+
+    /* NÚT TRÒN CHUYỂN ĐỔI CHẾ ĐỘ */
+    .switch-mode-btn {
+        position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+        width: 45px; height: 45px; border-radius: 50%;
+        background: #fff; border: 3px solid #ff9900;
+        z-index: 100; cursor: pointer;
+        display: flex; justify-content: center; align-items: center;
+        box-shadow: 0 0 15px rgba(255, 153, 0, 0.8);
+        transition: transform 0.3s;
+    }
+    .switch-mode-btn:hover { transform: translate(-50%, -50%) scale(1.1); }
+    .switch-mode-btn i { color: #000; font-size: 18px; }
+
+    .btn-bio { display: block; width: 100%; padding: 1.5vh; text-decoration: none; font-weight: 700; font-size: 15px; border-radius: 50px; cursor: pointer; transition: 0.3s; font-family: 'Noto Sans TC', sans-serif; text-align: center; background: transparent; color: #00eaff; border: 2px solid rgba(0, 234, 255, 0.6); margin-bottom: 0; }
+    .btn-bio:hover { background: rgba(0, 234, 255, 0.1); }
+
+    .dragon-balls-container { position: relative; display: grid; grid-template-columns: repeat(12, 1fr); gap: 5px; width: 100%; height: auto; margin-top: -50px; z-index: 20; pointer-events: none; }
+    .dragon-ball { 
+        width: 14vw; height: 14vw; max-width: 70px; max-height: 70px; border-radius: 50%; 
+        background: radial-gradient(circle at 40% 40%, #fff5cc 0%, #ffac00 45%, #d95700 100%); 
+        box-shadow: inset 3px 3px 10px rgba(255,255,255,0.7), 0 5px 10px rgba(0,0,0,0.5); 
+        position: relative; 
+    }
+    
+    .active-ball { cursor: pointer; pointer-events: auto; animation: ballSuperGlow 2s infinite ease-in-out alternate; }
+    .active-ball:hover { transform: scale(1.15) translateY(-5px) !important; filter: brightness(1.5) saturate(1.3) !important; box-shadow: inset 5px 5px 25px rgba(255,255,255,1), 0 0 30px rgba(255, 215, 0, 1), 0 0 50px rgba(255, 69, 0, 0.8) !important; z-index: 30; }
+    .locked-ball { cursor: default; pointer-events: none; opacity: 0.6; filter: grayscale(0.8); }
+
+    @keyframes ballSuperGlow { 0% { transform: scale(1); filter: brightness(1); } 100% { transform: scale(1.05); filter: brightness(1.3); } }
+    
+    #db-1 { grid-column: 6 / 8; grid-row: 1; transform: translateY(-25%); z-index: 25; } 
+    #db-2 { grid-column: 9 / 11; grid-row: 1; }
+    #db-3 { grid-column: 4 / 6; grid-row: 2; }
+    #db-4 { grid-column: 8 / 10; grid-row: 2; }
+    #db-5 { grid-column: 3 / 5; grid-row: 1; }
+    #db-6 { grid-column: 1 / 3; grid-row: 2; transform: translateY(15%); }
+    #db-7 { grid-column: 11 / 13; grid-row: 2; transform: translateY(15%); }
+
+    .star { position: absolute; color: #d11a00; font-size: 14px; filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.5)); transform: translate(-50%, -50%); pointer-events: none; animation: starTwinkle 1.2s infinite ease-in-out alternate; }
+    @keyframes starTwinkle { 0% { opacity: 0.7; transform: translate(-50%, -50%) scale(0.9); } 100% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); filter: drop-shadow(0 0 5px rgba(255, 200, 0, 0.8)); brightness(1.5); } }
+
+    #db-1 .star { font-size: 26px; animation-delay: 0.2s; left: 50%; top: 50%; } 
+    #db-2 .s1 { left: 35%; top: 50%; animation-delay: 0.5s; } #db-2 .s2 { left: 65%; top: 50%; animation-delay: 0.1s; } 
+    #db-3 .s1 { left: 50%; top: 32%; animation-delay: 0.8s; } #db-3 .s2 { left: 33%; top: 65%; animation-delay: 0.3s; } #db-3 .s3 { left: 67%; top: 65%; animation-delay: 0.6s; } 
+    #db-4 .s1 { left: 35%; top: 35%; } #db-4 .s2 { left: 65%; top: 35%; } #db-4 .s3 { left: 35%; top: 65%; } #db-4 .s4 { left: 65%; top: 65%; } 
+    #db-5 .s1 { left: 50%; top: 28%; animation-delay: 0.4s; } #db-5 .s2 { left: 28%; top: 45%; } #db-5 .s3 { left: 72%; top: 45%; animation-delay: 0.9s; } #db-5 .s4 { left: 35%; top: 70%; } #db-5 .s5 { left: 65%; top: 70%; } 
+    #db-6 .s1 { left: 30%; top: 30%; } #db-6 .s2 { left: 50%; top: 30%; } #db-6 .s3 { left: 70%; top: 30%; } #db-6 .s4 { left: 30%; top: 70%; } #db-6 .s5 { left: 50%; top: 70%; } #db-6 .s6 { left: 70%; top: 70%; } 
+    #db-7 .s1 { left: 50%; top: 50%; font-size: 16px; } #db-7 .s2 { left: 50%; top: 22%; } #db-7 .s3 { left: 25%; top: 35%; } #db-7 .s4 { left: 75%; top: 35%; } #db-7 .s5 { left: 25%; top: 65%; } #db-7 .s6 { left: 75%; top: 65%; } #db-7 .s7 { left: 50%; top: 78%; }
+
+    /* =========================================================== */
+    /* === PHẦN 2: GIAO DIỆN SÁNG (INSTAGRAM MODE) === */
+    /* =========================================================== */
+    
+    #mode-instagram {
+        display: none; /* Mặc định ẩn */
+        width: 100%; height: 100%;
+        background-color: #fff;
+        color: #262626;
+        flex-direction: column;
+        overflow-y: auto;
+        position: relative;
+        z-index: 20000;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    #mode-instagram .insta-header {
+        position: sticky; top: 0; background: #fff; z-index: 10;
+        display: flex; justify-content: space-between; align-items: center;
+        padding: 10px 15px; border-bottom: 1px solid #dbdbdb; height: 50px;
+    }
+    #mode-instagram .insta-username { font-weight: 700; font-size: 18px; }
+    
+    .back-to-db-btn { cursor: pointer; font-size: 20px; color: #000; padding: 5px; }
+
+    #mode-instagram .insta-profile { 
+        padding: 25px 15px 10px 15px; 
+        display: flex; 
+        flex-direction: column; 
+        align-items: center; 
+        text-align: center;
+    }
+    
+    /* === AVATAR SIÊU TO (160px) === */
+    #mode-instagram .insta-avatar-frame { margin-bottom: 15px; }
+    #mode-instagram .insta-avatar { 
+        width: 160px; /* To như yêu cầu */
+        height: 160px; 
+        border-radius: 25px; 
+        border: 1px solid #dbdbdb; 
+        padding: 3px; 
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        object-fit: cover;
+    }
+
+    #mode-instagram .insta-fullname { 
+        font-weight: 700; 
+        display: block; 
+        font-size: 24px; 
+        margin-bottom: 5px;
+    }
+
+    #mode-instagram .insta-bio { 
+        font-size: 14px; 
+        line-height: 1.5; 
+        color: #555;
+        margin-bottom: 15px;
+        max-width: 90%; 
+    }
+
+    .special-return-container { 
+        display: flex; justify-content: center; margin-bottom: 20px; width: 100%;
+    }
+    .special-return-btn {
+        width: auto;
+        min-width: 140px;
+        padding: 10px 30px;
+        background: linear-gradient(90deg, #ff7e00, #ffae00, #ff4500);
+        background-size: 200% 200%;
+        color: #fff;
+        font-family: 'Noto Sans TC', sans-serif;
+        font-weight: 700;
+        font-size: 15px;
+        border-radius: 50px;
+        border: 2px solid #00eaff;
+        box-shadow: 0 0 10px #ff7e00;
+        cursor: pointer;
+        display: flex;
+        align-items: center; justify-content: center; gap: 8px;
+        animation: glowBtn 1.5s infinite alternate;
+        transition: transform 0.2s;
+    }
+    .special-return-btn:active { transform: scale(0.95); }
+    
+    @keyframes glowBtn {
+        0% { box-shadow: 0 0 5px #ff7e00, 0 0 2px #00eaff; }
+        100% { box-shadow: 0 0 15px #ff7e00, 0 0 10px #00eaff; }
+    }
+
+    #mode-instagram .insta-buttons { padding: 0 15px 15px 15px; display: flex; gap: 8px; justify-content: center; width: 100%; max-width: 400px; margin: 0 auto; }
+    #mode-instagram .ibtn { 
+        flex: 1; background: #efefef; border: none; border-radius: 8px; 
+        padding: 8px 0; font-weight: 600; font-size: 13px; 
+        cursor: pointer; color: #000; text-decoration: none; 
+        display: flex; justify-content: center; align-items: center;
+        transition: 0.2s;
+    }
+    #mode-instagram .ibtn:hover { background: #e0e0e0; }
+
+    #mode-instagram .insta-tabs { display: flex; border-top: 1px solid #dbdbdb; height: 44px; align-items: center; justify-content: space-around; }
+    #mode-instagram .itab { flex: 1; text-align: center; color: #8e8e8e; font-size: 20px; }
+    #mode-instagram .itab.active { color: #000; border-top: 1px solid #000; height: 100%; display: flex; align-items: center; justify-content: center; }
+
+    /* CSS CHO LIGHTBOX */
+    .lightbox-modal {
+        display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background-color: rgba(0,0,0,0.9); z-index: 50000;
+        justify-content: center; align-items: center;
+        animation: fadeIn 0.3s ease;
+    }
+    .lightbox-content {
+        max-width: 95%; max-height: 90vh;
+        border-radius: 5px;
+        box-shadow: 0 0 20px rgba(255,255,255,0.2);
+        object-fit: contain;
+        transform: scale(0.8);
+        animation: zoomIn 0.3s ease forwards;
+    }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes zoomIn { to { transform: scale(1); } }
+    
+    .lightbox-close {
+        position: absolute; top: 20px; right: 20px;
+        color: #fff; font-size: 30px; font-weight: bold;
+        cursor: pointer; user-select: none;
+    }
+
+    /* === SỬA GRID THÀNH 5 CỘT (ĐỂ ẢNH BÉ LẠI) === */
+    #mode-instagram .insta-grid { 
+        display: grid; 
+        grid-template-columns: repeat(5, 1fr); /* Đã đổi từ 3 thành 5 cột */
+        gap: 1px; 
+        padding-bottom: 50px; 
+    }
+    
+    #mode-instagram .grid-item { 
+        position: relative; width: 100%; padding-top: 100%; 
+        background: #eee; overflow: hidden; 
+        cursor: pointer; 
+    }
+    #mode-instagram .grid-item img, 
+    #mode-instagram .grid-item video { 
+        position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; 
+        transition: transform 0.3s;
+    }
+    #mode-instagram .grid-item img:active { transform: scale(0.95); opacity: 0.8; }
+
+    /* POPUPS CHUNG */
+    .qr-modal { display: none; position: fixed; z-index: 30000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.95); justify-content: center; align-items: center; padding: 20px; }
+    .info-modal-content { background: linear-gradient(135deg, #0f172a, #1e293b); padding: 25px; width: 90%; max-width: 500px; border: 2px solid #00eaff; border-radius: 20px; color: #fff; position: relative; }
+    .info-header { font-size: 20px; color: #ff9900; margin-bottom: 15px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; font-weight: bold; }
+    .info-body { font-size: 14px; line-height: 1.5; color: #e0e0e0; }
+    .close-btn { position: absolute; top: -15px; right: -15px; background: #ff3333; color: white; width: 35px; height: 35px; border-radius: 50%; text-align: center; line-height: 35px; font-weight: bold; font-size: 20px; cursor: pointer; border: 2px solid #fff; }
+
+    #phonePopup { text-align: center; }
+    .phone-number-display { font-size: 28px; font-weight: bold; color: #00eaff; margin: 20px 0; font-family: 'Orbitron'; letter-spacing: 2px; text-shadow: 0 0 10px #00eaff; }
+
+    @media screen and (max-height: 700px) { .app-container { max-width: 400px; width: 85%; } .dragon-balls-container { margin-top: -40px; } .name { font-size: 22px; } .contact-row { padding: 5px 10px; } }
+</style>
+</head>
+<body>
+    
+    <audio id="sfx" preload="auto">
+        <source src="https://www.myinstants.com/media/sounds/kamehameha.mp3" type="audio/mpeg">
+    </audio>
+
+    <div id="mode-dragonball">
+        <div id="intro-layer">
+            <div id="intro-bg-image"></div>
+            <div class="energy-sphere" onclick="activateSystem()"></div>
+        </div>
+        
+        <div class="flash-bang" id="flash"></div>
+        <div class="dynamic-bg" id="bg-layer"></div>
+        <div class="mystic-border"></div>
+
+        <div class="app-container" id="main-app">
+            <div class="profile-card">
+                <div class="avatar-container">
+                    <div class="avatar-border"></div>
+                    <img id="avatar-img" src="images/ha_van_tai.jpeg" class="avatar" alt="Avatar" 
+                         onerror="this.src='images/ha_van_tai.jpg'; this.onerror=null;">
+                </div>
+                
+                <div class="name">何文財</div>
+                <div class="title">Saiyan Warrior • Ultra Instinct</div>
+                
+                <div class="stats-grid">
+                    <div class="stat-item"><span class="stat-label">年齡</span><span class="stat-value age-val">23</span></div>
+                    <div class="stat-item"><span class="stat-label">戰鬥力</span><span class="stat-value">9999</span></div>
+                    <div class="stat-item"><span class="stat-label">國籍</span><span class="stat-value">越南</span></div>
+                    <div class="stat-item"><span class="stat-label">狀態</span><span class="stat-value">單身</span></div>
+                </div>
+                
+                <div class="social-grid">
+                    <div class="switch-mode-btn" onclick="openInstagram()">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <a href="https://www.facebook.com/share/1GTEdvwUzF/?mibextid=wwXIfr" target="_blank" class="social-btn btn-fb"><i class="fab fa-facebook-f"></i> FB</a>
+                    <a href="https://line.me/ti/p/NYKgyEReeP" target="_blank" class="social-btn btn-line"><i class="fab fa-line"></i> Line</a>
+                    <a href="https://www.tiktok.com/@taiplusss" target="_blank" class="social-btn btn-tiktok"><i class="fab fa-tiktok"></i> TikTok</a>
+                    <div class="social-btn btn-call" onclick="showPhoneNumberPopup()"><i class="fas fa-phone"></i> Gọi</div>
+                </div>
+                
+                <div class="contact-info">
+                    <div class="contact-row"><i class="fas fa-envelope"></i><span class="contact-text">taipluss@gmail.com</span></div>
+                </div>
+                
+                <button class="btn-bio" onclick="openBio()">關於我 (Về Tôi)</button>
+            </div>
+
+            <div class="dragon-balls-container">
+                <div class="dragon-ball locked-ball" id="db-5"><span class="star s1">★</span><span class="star s2">★</span><span class="star s3">★</span><span class="star s4">★</span><span class="star s5">★</span></div>
+                <div class="dragon-ball active-ball" id="db-1" onclick="showSecret(1)"><span class="star">★</span></div>
+                <div class="dragon-ball active-ball" id="db-2" onclick="showSecret(2)"><span class="star s1">★</span><span class="star s2">★</span></div>
+                <div class="dragon-ball locked-ball" id="db-6"><span class="star s1">★</span><span class="star s2">★</span><span class="star s3">★</span><span class="star s4">★</span><span class="star s5">★</span><span class="star s6">★</span></div>
+                <div class="dragon-ball active-ball" id="db-3" onclick="showSecret(3)"><span class="star s1">★</span><span class="star s2">★</span><span class="star s3">★</span></div>
+                <div class="dragon-ball locked-ball" id="db-4"><span class="star s1">★</span><span class="star s2">★</span><span class="star s3">★</span><span class="star s4">★</span></div>
+                <div class="dragon-ball locked-ball" id="db-7"><span class="star s1">★</span><span class="star s2">★</span><span class="star s3">★</span><span class="star s4">★</span><span class="star s5">★</span><span class="star s6">★</span><span class="star s7">★</span></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="mode-instagram">
+        <div class="insta-header">
+            <div class="back-to-db-btn" onclick="backToDragonBall()"><i class="fas fa-chevron-left"></i></div>
+            <div class="insta-username">何文財</div>
+            <div style="width: 20px;"></div>
+        </div>
+
+        <div class="insta-profile">
+            <div class="insta-avatar-frame">
+                <img src="images/ha_van_tai.jpeg" class="insta-avatar" onerror="this.src='images/ha_van_tai.jpg'">
+            </div>
+            <span class="insta-fullname">何文財</span>
+            <div class="insta-bio">
+                🎓 Student at Taiwan | 🇻🇳🇹🇼<br>
+                📍 Taipei City<br>
+                ✈️ Travel & Explore
+            </div>
+            <div class="special-return-container">
+                <div class="special-return-btn" onclick="backToDragonBall()">
+                    <i class="fas fa-bolt"></i> 返回龍珠界
+                </div>
+            </div>
+            <div class="insta-buttons">
+                <a href="https://www.facebook.com/share/1GTEdvwUzF/?mibextid=wwXIfr" target="_blank" class="ibtn">Facebook</a>
+                <a href="https://line.me/ti/p/NYKgyEReeP" target="_blank" class="ibtn">Line</a>
+                <a href="https://www.tiktok.com/@taiplusss" target="_blank" class="ibtn">TikTok</a>
+            </div>
+        </div>
+
+        <div class="insta-tabs">
+            <div class="itab active"><i class="fas fa-th"></i></div>
+            <div class="itab"><i class="fas fa-user-tag"></i></div>
+        </div>
+
+        <div class="insta-grid">
+            <div class="grid-item"><img src="images/1.jpg" onclick="openLightbox(this)" onerror="this.src='images/1.jpeg'; this.onerror=function(){this.src='images/1.png'}" alt="1"></div>
+            <div class="grid-item"><img src="images/2.jpg" onclick="openLightbox(this)" onerror="this.src='images/2.jpeg'; this.onerror=function(){this.src='images/2.png'}" alt="2"></div>
+            <div class="grid-item"><img src="images/3.jpg" onclick="openLightbox(this)" onerror="this.src='images/3.jpeg'; this.onerror=function(){this.src='images/3.png'}" alt="3"></div>
+            <div class="grid-item"><img src="images/4.jpg" onclick="openLightbox(this)" onerror="this.src='images/4.jpeg'; this.onerror=function(){this.src='images/4.png'}" alt="4"></div>
+            <div class="grid-item"><img src="images/5.jpg" onclick="openLightbox(this)" onerror="this.src='images/5.jpeg'; this.onerror=function(){this.src='images/5.png'}" alt="5"></div>
+            <div class="grid-item"><img src="images/6.jpg" onclick="openLightbox(this)" onerror="this.src='images/6.jpeg'; this.onerror=function(){this.src='images/6.png'}" alt="6"></div>
+            <div class="grid-item"><img src="images/7.jpg" onclick="openLightbox(this)" onerror="this.src='images/7.jpeg'; this.onerror=function(){this.src='images/7.png'}" alt="7"></div>
+            <div class="grid-item"><img src="images/8.jpg" onclick="openLightbox(this)" onerror="this.src='images/8.jpeg'; this.onerror=function(){this.src='images/8.png'}" alt="8"></div>
+            <div class="grid-item"><img src="images/9.jpg" onclick="openLightbox(this)" onerror="this.src='images/9.jpeg'; this.onerror=function(){this.src='images/9.png'}" alt="9"></div>
+            <div class="grid-item"><img src="images/10.jpg" onclick="openLightbox(this)" onerror="this.src='images/10.jpeg'; this.onerror=function(){this.src='images/10.png'}" alt="10"></div>
+            <div class="grid-item"><img src="images/11.jpg" onclick="openLightbox(this)" onerror="this.src='images/11.jpeg'; this.onerror=function(){this.src='images/11.png'}" alt="11"></div>
+            <div class="grid-item"><img src="images/12.jpg" onclick="openLightbox(this)" onerror="this.src='images/12.jpeg'; this.onerror=function(){this.src='images/12.png'}" alt="12"></div>
+            <div class="grid-item"><img src="images/13.jpg" onclick="openLightbox(this)" onerror="this.src='images/13.jpeg'; this.onerror=function(){this.src='images/13.png'}" alt="13"></div>
+            <div class="grid-item"><img src="images/14.jpg" onclick="openLightbox(this)" onerror="this.src='images/14.jpeg'; this.onerror=function(){this.src='images/14.png'}" alt="14"></div>
+            <div class="grid-item"><img src="images/15.jpg" onclick="openLightbox(this)" onerror="this.src='images/15.jpeg'; this.onerror=function(){this.src='images/15.png'}" alt="15"></div>
+            <div class="grid-item"><img src="images/16.jpg" onclick="openLightbox(this)" onerror="this.src='images/16.jpeg'; this.onerror=function(){this.src='images/16.png'}" alt="16"></div>
+            <div class="grid-item"><img src="images/17.jpg" onclick="openLightbox(this)" onerror="this.src='images/17.jpeg'; this.onerror=function(){this.src='images/17.png'}" alt="17"></div>
+            <div class="grid-item"><img src="images/18.jpg" onclick="openLightbox(this)" onerror="this.src='images/18.jpeg'; this.onerror=function(){this.src='images/18.png'}" alt="18"></div>
+            <div class="grid-item"><img src="images/19.jpg" onclick="openLightbox(this)" onerror="this.src='images/19.jpeg'; this.onerror=function(){this.src='images/19.png'}" alt="19"></div>
+            <div class="grid-item"><img src="images/20.jpg" onclick="openLightbox(this)" onerror="this.src='images/20.jpeg'; this.onerror=function(){this.src='images/20.png'}" alt="20"></div>
+            <div class="grid-item"><img src="images/21.jpg" onclick="openLightbox(this)" onerror="this.src='images/21.jpeg'; this.onerror=function(){this.src='images/21.png'}" alt="21"></div>
+            <div class="grid-item"><img src="images/22.jpg" onclick="openLightbox(this)" onerror="this.src='images/22.jpeg'; this.onerror=function(){this.src='images/22.png'}" alt="22"></div>
+            <div class="grid-item"><img src="images/23.jpg" onclick="openLightbox(this)" onerror="this.src='images/23.jpeg'; this.onerror=function(){this.src='images/23.png'}" alt="23"></div>
+            <div class="grid-item"><img src="images/24.jpg" onclick="openLightbox(this)" onerror="this.src='images/24.jpeg'; this.onerror=function(){this.src='images/24.png'}" alt="24"></div>
+            <div class="grid-item"><img src="images/25.jpg" onclick="openLightbox(this)" onerror="this.src='images/25.jpeg'; this.onerror=function(){this.src='images/25.png'}" alt="25"></div>
+            <div class="grid-item"><img src="images/26.jpg" onclick="openLightbox(this)" onerror="this.src='images/26.jpeg'; this.onerror=function(){this.src='images/26.png'}" alt="26"></div>
+            <div class="grid-item"><img src="images/27.jpg" onclick="openLightbox(this)" onerror="this.src='images/27.jpeg'; this.onerror=function(){this.src='images/27.png'}" alt="27"></div>
+            
+            <div class="grid-item">
+                <video controls>
+                    <source src="images/788203415.986296.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        </div>
+    </div>
+
+    <div id="lightbox-modal" class="lightbox-modal" onclick="closeLightbox()">
+        <span class="lightbox-close">&times;</span>
+        <img class="lightbox-content" id="lightbox-img" src="">
+    </div>
+
+    <div id="phoneModal" class="qr-modal" onclick="closePopups()">
+        <div class="info-modal-content" id="phonePopup" onclick="event.stopPropagation()">
+            <div class="close-btn" onclick="closePopups()">×</div>
+            <div class="info-header">PHONE NUMBER</div>
+            <div class="phone-number-display">0970622189</div>
+        </div>
+    </div>
+
+    <div id="bioPopup" class="qr-modal" onclick="closePopups()">
+        <div class="info-modal-content" onclick="event.stopPropagation()">
+            <div class="close-btn" onclick="closePopups()">×</div>
+            <div class="info-header">戰士檔案</div>
+            <div class="info-body">
+                <p>大家好！我是<span style="color:#00eaff;font-weight:bold;">何文財</span>。</p>
+                <p>目前我在<b>台灣</b>生活、學習和工作。</p>
+                <p>如果你也在尋找一位真誠的夥伴來分享有趣的故事，那麼……我們終於找到彼此了！</p>
+                <p style="text-align: right; font-style: italic; color: #ff9900; margin-top:10px;">"Let's explore the world together!"</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="secretPopup" class="qr-modal" onclick="closeSecret()">
+        <div class="info-modal-content" style="text-align:center; background: transparent; border: none; box-shadow: none;" onclick="event.stopPropagation()">
+            <img id="secret-img" src="" style="max-width: 100%; max-height: 70vh; border-radius: 15px; border: 3px solid #00eaff; box-shadow: 0 0 30px #00eaff;">
+            <div style="margin-top: 10px; font-family: 'Orbitron'; color: #ff9900; font-size: 20px; font-weight: bold; text-shadow: 0 0 10px #000;">SUPER MEMORY</div>
+            <div class="close-btn" onclick="closeSecret()" style="top: -10px; right: -10px;">×</div>
+        </div>
+    </div>
+
+    <script>
+        const sfx = document.getElementById('sfx');
+
+        function activateSystem() {
+            if(sfx) {
+                sfx.volume = 1.0;
+                sfx.currentTime = 0;
+                sfx.play().catch(e => { console.log("Lỗi play"); });
+            }
+            document.body.classList.add('shaking');
+            setTimeout(function() {
+                var flash = document.getElementById('flash');
+                flash.style.opacity = '1'; 
+                setTimeout(function() {
+                    document.body.classList.remove('shaking');
+                    document.getElementById('intro-layer').style.display = 'none';
+                    flash.style.opacity = '0';
+                    document.getElementById('bg-layer').style.opacity = '1';
+                    var app = document.getElementById('main-app');
+                    app.style.opacity = '1';
+                    app.style.transform = 'scale(1)';
+                }, 200);
+            }, 3000); 
+        }
+
+        function openInstagram() {
+            document.getElementById('mode-dragonball').style.display = 'none';
+            document.getElementById('mode-instagram').style.display = 'flex';
+            document.body.style.backgroundColor = '#fff';
+            document.querySelector('.mystic-border').style.display = 'none';
+            document.getElementById('bg-layer').style.display = 'none';
+        }
+
+        function backToDragonBall() {
+            document.getElementById('mode-instagram').style.display = 'none';
+            document.getElementById('mode-dragonball').style.display = 'flex';
+            document.body.style.backgroundColor = '#000';
+            document.querySelector('.mystic-border').style.display = 'block';
+            document.getElementById('bg-layer').style.display = 'block';
+        }
+
+        function showPhoneNumberPopup() { document.getElementById("phoneModal").style.display = "flex"; }
+        function openBio() { document.getElementById("bioPopup").style.display = "flex"; }
+        function closePopups() { 
+            document.getElementById("bioPopup").style.display = "none";
+            document.getElementById("phoneModal").style.display = "none";
+        }
+
+        function showSecret(ballNumber) {
+            const img = document.getElementById("secret-img");
+            const fileName = "b" + ballNumber;
+            img.onerror = null;
+            img.src = "images/" + fileName + ".jpg";
+            img.onerror = function() {
+                this.onerror = function() {
+                     this.onerror = function() { alert("Không tìm thấy ảnh: " + fileName); };
+                     this.src = "images/" + fileName + ".png";
+                };
+                this.src = "images/" + fileName + ".jpeg";
+            };
+            document.getElementById("secretPopup").style.display = "flex";
+        }
+        function closeSecret() { document.getElementById("secretPopup").style.display = "none"; }
+
+        // --- HÀM XỬ LÝ LIGHTBOX (PHÓNG TO ẢNH) ---
+        function openLightbox(imgElement) {
+            var modal = document.getElementById("lightbox-modal");
+            var modalImg = document.getElementById("lightbox-img");
+            modal.style.display = "flex";
+            modalImg.src = imgElement.src;
+        }
+
+        function closeLightbox() {
+            document.getElementById("lightbox-modal").style.display = "none";
+        }
+    </script>
+</body>
+</html>
